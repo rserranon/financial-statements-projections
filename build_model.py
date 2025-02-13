@@ -4,6 +4,10 @@ import modelx as mx
 import pnl
 import balance_sheet
 import cashflow
+from load_input import load_assumptions  # Import the load_assumptions function
+from model_singleton import ModelSingleton
+
+
 
 def build():
     """Build a model and return it.
@@ -14,15 +18,20 @@ def build():
     # Ensure the current directory is correct
     os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
-    # Create a new model
-    model = mx.new_model(name='Financial_Statements_Model')
+
+# Get the singleton model instance
+    model = ModelSingleton.get_instance()
+
+    # Load assumptions into the model's 'Input' space
+    input_file = 'Assumptions.xlsx'  # Path to your input Excel file
+    load_assumptions(model, input_file)  # Load assumptions into the model's Input space
 
     # ------------------------------------------------------------------------
     # Build P&L space
     pnl_space = model.new_space(
         name='pnl',
         formula=lambda: {'Revenue': pnl.Revenue, 'COGS': pnl.COGS, 'Operating_Expenses': pnl.Operating_Expenses,
-                         'Net_Income': pnl.Net_Income}
+                         'EBIT': pnl.EBIT, 'Taxes': pnl.Interests, 'EBITDA': pnl.EBITDA, 'EBITA': pnl.EBITA, 'NOPAT': pnl.NOPAT, 'Net_Income': pnl.Net_Income}
     )
 
     # ------------------------------------------------------------------------
@@ -69,6 +78,11 @@ def build():
         'Revenue': pnl.Revenue,
         'COGS': pnl.COGS,
         'Operating_Expenses': pnl.Operating_Expenses,
+        'EBIT': pnl.EBIT,
+        'Interests': pnl.Interests,
+        'EBITDA': pnl.EBITDA,
+        'EBITDA': pnl.EBITA,
+        'NOPAT': pnl.NOPAT, 
         'Net_Income': pnl.Net_Income,
         'Current_Assets': balance_sheet.Current_Assets,
         'Non_Current_Assets': balance_sheet.Non_Current_Assets,

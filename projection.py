@@ -1,44 +1,79 @@
-# projection.py
 import pandas as pd
 import matplotlib.pyplot as plt
 from build_model import build  # Import the build function from the build_model.py
+
+def print_and_plot(df, title, xlabel, ylabel, ax):
+    """Function to print and plot the data for a given financial component."""
+    print(f"\n Financial Statements: {title}")
+    print(df.T)
+    df.plot(title=title, xlabel=xlabel, ylabel=ylabel, grid=True, ax=ax)
+
+def print_and_plot_pnl(model, years, ax):
+    """Print and plot the P&L data."""
+    vars_pnl = [
+        'Revenue', 'COGS', 'Operating_Expenses', 'EBIT', 'Interests', 'EBITDA', 'EBITDA', 'Net_Income'
+    ]
+    
+    # Collect P&L data
+    data_pnl = {var: [model.cells[var](t) for t in years] for var in vars_pnl}
+    df_pnl = pd.DataFrame(data_pnl)
+    df_pnl['Year'] = years
+    df_pnl.set_index('Year', inplace=True)
+
+    # Print and plot
+    print_and_plot(df_pnl, "P&L Variables Over Time", "Time Step", "Value", ax)
+
+def print_and_plot_balance_sheet(model, years, ax):
+    """Print and plot the Balance Sheet data."""
+    vars_balance = [
+        'Current_Assets', 'Non_Current_Assets', 'Current_Liabilities', 
+        'Long_Term_Liabilities', 'Equity'
+    ]
+    
+    # Collect Balance Sheet data
+    data_balance = {var: [model.cells[var](t) for t in years] for var in vars_balance}
+    df_balance = pd.DataFrame(data_balance)
+    df_balance['Year'] = years
+    df_balance.set_index('Year', inplace=True)
+
+    # Print and plot
+    print_and_plot(df_balance, "Balance Sheet Variables Over Time", "Time Step", "Value", ax)
+
+def print_and_plot_cashflow(model, years, ax):
+    """Print and plot the Cash Flow data."""
+    vars_cashflow = [
+        'Operating_CashFlow', 'Investing_CashFlow', 'Financing_CashFlow', 'Net_CashFlow'
+    ]
+    
+    # Collect Cash Flow data
+    data_cashflow = {var: [model.cells[var](t) for t in years] for var in vars_cashflow}
+    df_cashflow = pd.DataFrame(data_cashflow)
+    df_cashflow['Year'] = years
+    df_cashflow.set_index('Year', inplace=True)
+
+    # Print and plot
+    print_and_plot(df_cashflow, "Cash Flow Variables Over Time", "Time Step", "Value", ax)
 
 def run_projection():
     # Build the model using the build function from build_model.py
     model = build()
     print("Model built successfully!")
 
-    # ------------------------------------------------------------------------
-    # Access cells dynamically (e.g., P&L, Balance Sheet, Cash Flow)
-    vars = [
-        'Revenue', 'COGS', 'Operating_Expenses', 'Net_Income',
-        'Current_Assets', 'Non_Current_Assets', 'Current_Liabilities', 'Long_Term_Liabilities', 'Equity',
-        'Operating_CashFlow', 'Investing_CashFlow', 'Financing_CashFlow', 'Net_CashFlow'
-    ]
-
     # Define the period range (e.g., 2025 to 2034)
     proj_span = 10  # 10 years for projection
     years = range(2025, 2025 + proj_span)
 
-    # Modify the data dictionary to include 'years' as the index or a column
-    data = {var: [model.cells[var](t) for t in years] for var in vars}
+    # Set up the subplots for P&L, Balance Sheet, and Cash Flow
+    fig, axs = plt.subplots(3, 1, figsize=(10, 8))  # 3 rows, 1 column
 
-    # Now add the years as a column in the DataFrame
-    df = pd.DataFrame(data)
+    # Print and plot each financial component (P&L, Balance Sheet, Cash Flow) in different subplots
+    print_and_plot_pnl(model, years, axs[0])
+    print_and_plot_balance_sheet(model, years, axs[1])
+    print_and_plot_cashflow(model, years, axs[2])
 
-    # Add 'Year' column with the actual years
-    df['Year'] = years
-
-    # Optionally, you can set 'Year' as the index if desired
-    df.set_index('Year', inplace=True)
-
-    # Print the resulting DataFrame
-    print(df.T)
-    
-    # Optionally, plot the variables over time
-    df.plot(title="Financial Statements Variables Over Time", xlabel="Time Step", ylabel="Value", grid=True)
+    # Adjust layout for better spacing between subplots
+    plt.tight_layout()
     plt.show()
 
 if __name__ == '__main__':
     run_projection()
-

@@ -22,7 +22,7 @@ def build():
     pnl_space = model.new_space(
         name='pnl',
         formula=lambda: {'Revenue': pnl.Revenue, 'COGS': pnl.COGS, 'Operating_Expenses': pnl.Operating_Expenses,
-                         'Net_Income': pnl.Net_Income}
+                         'EBIT': pnl.EBIT, 'Taxes': pnl.Interests, 'EBITDA': pnl.EBITDA, 'EBITA': pnl.EBITA, 'Net_Income': pnl.Net_Income}
     )
 
     # ------------------------------------------------------------------------
@@ -69,6 +69,10 @@ def build():
         'Revenue': pnl.Revenue,
         'COGS': pnl.COGS,
         'Operating_Expenses': pnl.Operating_Expenses,
+        'EBIT': pnl.EBIT,
+        'Interests': pnl.Interests,
+        'EBITDA': pnl.EBITDA,
+        'EBITDA': pnl.EBITA,
         'Net_Income': pnl.Net_Income,
         'Current_Assets': balance_sheet.Current_Assets,
         'Non_Current_Assets': balance_sheet.Non_Current_Assets,

@@ -30,14 +30,13 @@ def build():
     # Build P&L space
     pnl_space = model.new_space(
         name='pnl',
-        formula=lambda: {'Revenue': pnl.Revenue, 'COGS': pnl.COGS, 'Operating_Expenses': pnl.Operating_Expenses,
-                         'EBIT': pnl.EBIT, 'Taxes': pnl.Interests, 'EBITDA': pnl.EBITDA, 'EBITA': pnl.EBITA, 'NOPAT': pnl.NOPAT, 'Net_Income': pnl.Net_Income}
+        formula=lambda: {'Revenue': pnl.Revenue, 'COGS': pnl.COGS, 'SG&A': pnl.SGA,
+                         'EBIT': pnl.EBIT, 'Interests': pnl.Interests,'Taxes': pnl.Taxes, 'EBITDA': pnl.EBITDA, 'EBITA': pnl.EBITA, 'NOPAT': pnl.NOPAT, 'Net_Income': pnl.Net_Income}
     )
 
     # ------------------------------------------------------------------------
     # Build Balance Sheet space
     balance_sheet_space = model.new_space(
-        name='BalanceSheet',
         formula=lambda: {'Current_Assets': balance_sheet.Current_Assets, 'Non_Current_Assets': balance_sheet.Non_Current_Assets,
                          'Current_Liabilities': balance_sheet.Current_Liabilities, 'Long_Term_Liabilities': balance_sheet.Long_Term_Liabilities,
                          'Equity': balance_sheet.Equity}
@@ -77,11 +76,12 @@ def build():
     model.cells = {
         'Revenue': pnl.Revenue,
         'COGS': pnl.COGS,
-        'Operating_Expenses': pnl.Operating_Expenses,
+        'SG&A': pnl.SGA,
         'EBIT': pnl.EBIT,
         'Interests': pnl.Interests,
+        'Taxes': pnl.Taxes,
         'EBITDA': pnl.EBITDA,
-        'EBITDA': pnl.EBITA,
+        'EBITA': pnl.EBITA,
         'NOPAT': pnl.NOPAT, 
         'Net_Income': pnl.Net_Income,
         'Current_Assets': balance_sheet.Current_Assets,

@@ -3,17 +3,25 @@ import matplotlib.pyplot as plt
 from build_model import build  # Import the build function from the build_model.py
 from global_state import GlobalState
 
+# Set pandas to display all columns in the console
+pd.set_option('display.width', None)  # Disable line wrapping
+pd.set_option('display.max_columns', None)  # Show all columns
+pd.set_option('display.max_rows', None)  # Show all rows (optional)
 
 def print_and_plot(df, title, xlabel, ylabel, ax):
     """Function to print and plot the data for a given financial component."""
     print(f"\n Financial Statements: {title}")
-    print(df.T)
+    
+    # Format each column with commas and round to 2 decimal places
+    formatted_df = df.apply(lambda col: col.map(lambda x: f"{x:,.2f}"))
+    print(formatted_df.T)  # Transpose for better presentation
+
     df.plot(title=title, xlabel=xlabel, ylabel=ylabel, grid=True, ax=ax)
 
 def print_and_plot_pnl(model, years, ax):
     """Print and plot the P&L data."""
     vars_pnl = [
-        'Revenue', 'COGS', 'Operating_Expenses', 'EBIT', 'Interests', 'EBITDA', 'EBITDA', 'NOPAT', 'Net_Income'
+        'Revenue', 'COGS', 'SG&A', 'EBIT', 'Interests', 'Taxes', 'EBITDA', 'EBITA', 'NOPAT', 'Net_Income'
     ]
     
     # Collect P&L data
@@ -72,6 +80,9 @@ def run_projection():
 
     # Set up the subplots for P&L, Balance Sheet, and Cash Flow
     fig, axs = plt.subplots(3, 1, figsize=(10, 8))  # 3 rows, 1 column
+
+    # Set pandas to display all columns
+    pd.set_option('display.max_columns', None)
 
     # Print and plot each financial component (P&L, Balance Sheet, Cash Flow) in different subplots
     print_and_plot_pnl(model, years, axs[0])

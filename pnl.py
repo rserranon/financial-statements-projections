@@ -2,13 +2,12 @@
 from model_singleton import ModelSingleton
 from global_state import GlobalState
 
-def Taxes(t, base):
-    """Taxes based on net income"""
-    return 0.3 * base  # 30% tax
+
+model = ModelSingleton.get_instance()  # Get the singleton instance
+
 
 def Revenue(t):
     """Revenue or Sales"""
-    model = ModelSingleton.get_instance()  # Get the singleton instance
 
     initial_year = GlobalState().get('initial_year') 
 
@@ -30,17 +29,17 @@ def Revenue(t):
 def COGS(t):
     """Cost of Goods Sold"""
 
-    model = ModelSingleton.get_instance()  # Get the singleton instance
     cogs_revenue = model.Input.Assumptions['COGS/Revenues'][t]
     return Revenue(t) * cogs_revenue # Example constant cost of goods sold
 
-def Operating_Expenses(t):
+def SGA(t):
     """Operating Expenses"""
-    return -30  # Example constant operating expense
+    sga = model.Input.Assumptions['SG&A/Revenues'][t]
+    return Revenue(t) * sga # Example constant operating expense
 
 def EBIT(t):
     """EBIT Earnings Before Interests and Taxes """
-    return Revenue(t) + COGS(t) + Operating_Expenses(t)
+    return Revenue(t) + COGS(t) + SGA(t)
 
 def Depreciation(t):
     return -5
@@ -50,20 +49,26 @@ def Amortization(t):
 
 def EBITDA (t):
     """EBITDA Earnings Before Interests Taxes Depreciation and Amortization"""
-    return Net_Income(t) - Interests(t) - Taxes(t, EBIT(t)) - Depreciation(t) - Amortization(t)
+    return Net_Income(t) - Interests(t) - Taxes(t) - Depreciation(t) - Amortization(t)
 
 def EBITA (t):
     """EBITA Earnings Before Interest and Taxes """
-    return Net_Income(t) - Interests(t) -  Taxes(t, EBIT(t)) - Amortization(t)
+    return Net_Income(t) - Interests(t) -  Taxes(t) - Amortization(t)
 
 def Interests(t):
     return 0
 
+def Taxes(t):
+    """Taxes based on net income"""
+
+    marginal_tax_rate = model.Input.Assumptions['Tax Rate'][t]
+    return EBIT(t) * marginal_tax_rate
+
 def Net_Income(t):
     """Net income calculation (Revenue - COGS - Expenses - Interests - Taxes)"""
-    return EBIT(t) - Interests(t) - Taxes(t, EBIT(t))
+    return EBIT(t) - Interests(t) - Taxes(t)
 
 def NOPAT(t):
     """ NET OPERATING PROFIT AFTER TAXES"""
-    return Net_Income(t) - Taxes(t, EBIT(t))
+    return Net_Income(t) - Taxes(t)
 

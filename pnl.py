@@ -10,10 +10,6 @@ def Revenue(t):
     """Revenue or Sales"""
 
     initial_year = GlobalState().get('initial_year') 
-
-    # Set pandas to display all columns
-    import pandas as pd
-    # pd.set_option('display.max_columns', None)
     try:
         # Access the 'Revenue Growth' row and year `t` column (ensure t is a string)
         revenue_growth = model.Input.Assumptions['Revenue Growth'][t]
@@ -30,12 +26,13 @@ def COGS(t):
     """Cost of Goods Sold"""
 
     cogs_revenue = model.Input.Assumptions['COGS/Revenues'][t]
-    return Revenue(t) * cogs_revenue # Example constant cost of goods sold
+    return Revenue(t) * cogs_revenue * (-1) # COGS are negative balances
 
 def SGA(t):
     """Operating Expenses"""
     sga = model.Input.Assumptions['SG&A/Revenues'][t]
-    return Revenue(t) * sga # Example constant operating expense
+    return Revenue(t) * sga * (-1) # SG&A are negative balances
+
 
 def EBIT(t):
     """EBIT Earnings Before Interests and Taxes """
@@ -62,7 +59,7 @@ def Taxes(t):
     """Taxes based on net income"""
 
     marginal_tax_rate = model.Input.Assumptions['Tax Rate'][t]
-    return EBIT(t) * marginal_tax_rate
+    return EBIT(t) * marginal_tax_rate * (-1) # Taxes are negative balances
 
 def Net_Income(t):
     """Net income calculation (Revenue - COGS - Expenses - Interests - Taxes)"""
@@ -70,5 +67,5 @@ def Net_Income(t):
 
 def NOPAT(t):
     """ NET OPERATING PROFIT AFTER TAXES"""
-    return Net_Income(t) - Taxes(t)
+    return EBITA(t) + Taxes(t)
 

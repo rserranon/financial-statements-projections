@@ -30,16 +30,33 @@ def build():
     # Build P&L space
     pnl_space = model.new_space(
         name='pnl',
-        formula=lambda: {'Revenue': pnl.Revenue, 'COGS': pnl.COGS, 'SG&A': pnl.SGA,
-                         'EBIT': pnl.EBIT, 'Interests': pnl.Interests,'Taxes': pnl.Taxes, 'EBITDA': pnl.EBITDA, 'EBITA': pnl.EBITA, 'NOPAT': pnl.NOPAT, 'Net_Income': pnl.Net_Income}
+        formula=lambda: {'Revenue': pnl.Revenue, 
+                         'COGS': pnl.COGS, 
+                         'SG&A': pnl.SGA, 
+                         'Depreciation': pnl.Depreciation,
+                         'EBIT': pnl.EBIT, 
+                         'Amortization': pnl.Amortization,
+                         'Interests': pnl.Interests,
+                         'Taxes': pnl.Taxes, 
+                         'EBITDA': pnl.EBITDA, 
+                         'EBITA': pnl.EBITA, 
+                         'NOPAT': pnl.NOPAT, 
+                         'Net_Income': pnl.Net_Income}
     )
 
     # ------------------------------------------------------------------------
     # Build Balance Sheet space
     balance_sheet_space = model.new_space(
-        formula=lambda: {'Current_Assets': balance_sheet.Current_Assets, 'Non_Current_Assets': balance_sheet.Non_Current_Assets,
-                         'Current_Liabilities': balance_sheet.Current_Liabilities, 'Long_Term_Liabilities': balance_sheet.Long_Term_Liabilities,
-                         'Equity': balance_sheet.Equity}
+        formula=lambda: {
+            'Operating_Cash': balance_sheet.Operating_Cash, 
+            'Accounts_Receivable': balance_sheet.Accounts_Receivable,
+            'Inventories': balance_sheet.Inventories,
+            'Other_Current_Assets': balance_sheet.Other_Current_Assets,
+            'Current_Assets': balance_sheet.Current_Assets, 
+            'Non_Current_Assets': balance_sheet.Non_Current_Assets,
+            'Current_Liabilities': balance_sheet.Current_Liabilities, 
+            'Long_Term_Liabilities': balance_sheet.Long_Term_Liabilities,
+            'Equity': balance_sheet.Equity}
     )
 
     # ------------------------------------------------------------------------
@@ -77,18 +94,27 @@ def build():
         'Revenue': pnl.Revenue,
         'COGS': pnl.COGS,
         'SG&A': pnl.SGA,
+        'Depreciation': pnl.Depreciation,
         'EBIT': pnl.EBIT,
+        'Amortization': pnl.Amortization,
         'Interests': pnl.Interests,
         'Taxes': pnl.Taxes,
         'EBITDA': pnl.EBITDA,
         'EBITA': pnl.EBITA,
         'NOPAT': pnl.NOPAT, 
         'Net_Income': pnl.Net_Income,
+
+        
+        'Operating_Cash': balance_sheet.Operating_Cash, 
+        'Accounts_Receivable': balance_sheet.Accounts_Receivable,
+        'Inventories': balance_sheet.Inventories,
+        'Other_Current_Assets': balance_sheet.Other_Current_Assets,
         'Current_Assets': balance_sheet.Current_Assets,
         'Non_Current_Assets': balance_sheet.Non_Current_Assets,
         'Current_Liabilities': balance_sheet.Current_Liabilities,
         'Long_Term_Liabilities': balance_sheet.Long_Term_Liabilities,
         'Equity': balance_sheet.Equity,
+
         'Operating_CashFlow': cashflow.Operating_CashFlow,
         'Investing_CashFlow': cashflow.Investing_CashFlow,
         'Financing_CashFlow': cashflow.Financing_CashFlow,

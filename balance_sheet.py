@@ -59,13 +59,39 @@ def Current_Assets(t):
     """Current assets"""
     return Operating_Cash(t) + Accounts_Receivable(t) + Inventories(t) + Other_Current_Assets(t)
 
+
 def Non_Current_Assets(t):
     """Non-current assets (long-term assets)"""
     return 120  # Example constant value
 
+def Accounts_Payable(t):
+    """Accounts_Payable - Level of Accounts Payable as % of Revenues"""
+
+    try:
+        # Access the 'Operating Cash' ratio row and year `t` column 
+        accounts_payable_as_pct_revenue = model.Input.Assumptions['Accounts Payable'][t]
+    except KeyError as e:
+        print(f"Error accessing 'Accounts Payable' for year {t}: {e}")
+        accounts_payable_as_pct_revenue = 0 
+
+    return Revenue(t) * (1 + accounts_payable_as_pct_revenue) 
+
+
+def Other_Current_Liabilities(t):
+    """Other Current Liabilities - Level of Other Current Liabilities as % of Revenues"""
+
+    try:
+        # Access the 'Operating Cash' ratio row and year `t` column 
+        other_current_liabilities_as_pct_revenue = model.Input.Assumptions['Other Current Liabilities'][t]
+    except KeyError as e:
+        print(f"Error accessing 'Other Current Liabilities' for year {t}: {e}")
+        other_current_liabiities_as_pct_revenue = 0 
+
+    return Revenue(t) * (1 + other_current_liabilities_as_pct_revenue)  # Get Other Current Assets as % of Revenue 
+
 def Current_Liabilities(t):
     """Current liabilities"""
-    return 60  # Example constant value
+    return Accounts_Payable(t) + Other_Current_Liabilities(t)
 
 def Long_Term_Liabilities(t):
     """Long-term liabilities"""

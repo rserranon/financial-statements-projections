@@ -80,6 +80,8 @@ def print_and_plot_balance_sheet(model, years, ax, chart_type='line'):
         'Other_Current_Assets',
         'Current_Assets', 
         'Non_Current_Assets', 
+        'Accounts_Payable',
+        'Other_Current_Liabilities',
         'Current_Liabilities', 
         'Long_Term_Liabilities', 
         'Equity'

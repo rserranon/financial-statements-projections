@@ -54,6 +54,8 @@ def build():
             'Other_Current_Assets': balance_sheet.Other_Current_Assets,
             'Current_Assets': balance_sheet.Current_Assets, 
             'Non_Current_Assets': balance_sheet.Non_Current_Assets,
+            'Accounts_Payable': balance_sheet.Accounts_Payable,
+            'Other_Current_Liabilities': balance_sheet.Other_Current_Liabilities,
             'Current_Liabilities': balance_sheet.Current_Liabilities, 
             'Long_Term_Liabilities': balance_sheet.Long_Term_Liabilities,
             'Equity': balance_sheet.Equity}
@@ -111,6 +113,8 @@ def build():
         'Other_Current_Assets': balance_sheet.Other_Current_Assets,
         'Current_Assets': balance_sheet.Current_Assets,
         'Non_Current_Assets': balance_sheet.Non_Current_Assets,
+        'Accounts_Payable': balance_sheet.Accounts_Payable,
+        'Other_Current_Liabilities': balance_sheet.Other_Current_Liabilities,
         'Current_Liabilities': balance_sheet.Current_Liabilities,
         'Long_Term_Liabilities': balance_sheet.Long_Term_Liabilities,
         'Equity': balance_sheet.Equity,

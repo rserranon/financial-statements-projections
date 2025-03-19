@@ -1,4 +1,7 @@
 # cashflow.py
+from model_singleton import ModelSingleton
+from global_state import GlobalState
+from utils import get_assumption_value  # Import the helper function
 
 def Operating_CashFlow(t):
     """Operating cash flows (e.g., Net Income + Depreciation)"""

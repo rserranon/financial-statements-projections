@@ -83,8 +83,7 @@ def print_and_plot_balance_sheet(model, years, ax, chart_type='line'):
         'Accounts_Payable',
         'Other_Current_Liabilities',
         'Current_Liabilities', 
-        'Long_Term_Liabilities', 
-        'Equity'
+        'Long_Term_Liabilities', 'Equity'
     ]
     
     # Collect Balance Sheet data

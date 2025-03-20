@@ -2,6 +2,7 @@
 from model_singleton import ModelSingleton
 from global_state import GlobalState
 from pnl import Revenue
+from retained_earnings import Retained_Earnings
 from utils import get_assumption_value
 
 model = ModelSingleton.get_instance()  # Get the singleton instance
@@ -55,7 +56,12 @@ def Long_Term_Liabilities(t):
     """Long-term liabilities"""
     return 100  # Example constant value
 
+def Common_Stock_and_Paid_Capital(t):
+    if t == initial_year:
+        return get(model, 'Common Stock and Paid in Capital', t) 
+    else:
+        return 0
+
 def Equity(t):
-    """Equity, calculated as Assets - Liabilities"""
-    return (Current_Assets(t) + Non_Current_Assets(t) -
-            Current_Liabilities(t) - Long_Term_Liabilities(t))
+    """Calculate Equity"""
+    return (Common_Stock_and_Paid_Capital(t) + Retained_Earnings(t))

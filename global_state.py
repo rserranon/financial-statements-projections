@@ -1,15 +1,24 @@
 # global_state.py
-class GlobalState:
-    _instance = None
 
-    def __new__(cls):
+from typing import Self  # Python 3.11+
+
+StateValue = int | float | str | bool | list[object] | dict[str, object]
+
+class GlobalState:
+    _instance: Self | None = None
+    data: dict[str, StateValue]
+
+    def __new__(cls) -> Self:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            cls._instance.data = {}
         return cls._instance
 
-    def set(self, key, value):
+    def __init__(self):
+        if not hasattr(self, "data"):
+            self.data = {}
+
+    def set(self, key: str, value: StateValue) -> None:
         self.data[key] = value
 
-    def get(self, key):
+    def get(self, key: str) -> StateValue | None:
         return self.data.get(key)

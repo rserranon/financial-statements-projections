@@ -9,15 +9,15 @@ def load_assumptions(model, input_file):
 
     # Load the assumptions data from Excel using pandas
     assumptions_df = pd.read_excel(input_file, sheet_name='Assumptions', index_col=0)
-    startin_balances_df = pd.read_excel(input_file, sheet_name='Balances', index_col=0)
+    starting_balances_df = pd.read_excel(input_file, sheet_name='Balances', index_col=0)
  
 
     # If you want to transpose the data (assuming years are in columns and assumptions in rows)
     assumptions_df = assumptions_df.transpose()
-    startin_balances_df = startin_balances_df.transpose()
+    starting_balances_df = starting_balances_df.transpose()
 
     # Load the data into the model using new_pandas
     inp.new_pandas(name="Assumptions", path=input_file, data=assumptions_df, file_type="excel", sheet="Assumptions")
-    inp.new_pandas(name="Balances", path=input_file, data=startin_balances_df, file_type="excel", sheet="Balances")
+    inp.new_pandas(name="Balances", path=input_file, data=starting_balances_df, file_type="excel", sheet="Balances")
 
     return inp
